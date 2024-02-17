@@ -1,0 +1,31 @@
+\newlength{\emosize}
+\setlength{\emosize}{1.5em}
+
+\newcommand{\emin}[1]{\raisebox{-.2\height}{\includegraphics[width=\emosize]{#1}}}
+\newcommand{\ethink}{\emin{Emo_think}}
+
+\providecommand{\qquestion}[2]{\ethink$_{[Q#1]}$\emph{#2}} 
+%\providecommand{\qanswer}[2]{\footnote{Tip to [#1]: \emph{#2}}}
+
+%%%======== answer file =========
+
+\newwrite\quickAnswers% create a file handle
+
+\newcommand{\answerfile}{quickanswers.tex}
+
+\newcommand{\collectanswers}[1][quickanswers.tex]{%
+\immediate\openout\quickAnswers=#1%
+\relax\renewcommand{\answerfile}{#1}
+%\relax
+%\immediate\write\quickAnswers{\unexpanded{\section[A few answers]{Answers to a few of the quick questions}}}%
+\relax}
+
+\newcommand{\closeanswers}{\immediate\closeout\quickAnswers\relax}
+
+\newcommand{\QQ}[1]{\unexpanded{\bfseries [Q}#1\unexpanded{]\normalfont}}
+
+\newcommand{\qanswer}[2]{%
+\immediate\write\quickAnswers{\unexpanded{\par}\QQ{#1}\ \ \unexpanded{#2}}
+}
+
+\newcommand{\qsolutions}{\closeanswers\input{\answerfile}}

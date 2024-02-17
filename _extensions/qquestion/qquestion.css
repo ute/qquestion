@@ -1,0 +1,8 @@
+.qanswer {
+    display: none;
+    color: red;
+}
+
+.qquestion{
+    font-style: italic;
+}
