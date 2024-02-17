@@ -4,15 +4,11 @@ filters:
   - qquestion
 ---
 
-\setlength{\emosize}{1.5em}
-
 \collectanswers
 
 Enclosing questions in Tuborgs {?? May I ask a first question? Think about anything. ??}
 
-Questions can come immediately in the text. {?? Do you remember Pythagoras' equation? :\|: nobody knows exactly what is going on here $$
-a^2 + b^2
-$$ ??}
+Questions can come immediately in the text. {?? Do you remember Pythagoras' equation? :|: nobody knows exactly what is going on here $$ a^2 + b^2 $$ ??}
 
 And then the lorem ipsum. A question can also stand out and be put in a quote.
 
