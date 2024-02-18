@@ -31,6 +31,3 @@ Change appearance of questions and answers by hacking the files `qquestions.css`
 
 Here is the source code for a minimal example: [example.qmd](example.qmd).
 
-## Quirks
-
-In book projects, questions are numbered accross chapters. The way it is done now (v0.2.0) gives funny results in the previewer, but works well when rendering the whole project at once.
