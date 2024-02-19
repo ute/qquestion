@@ -74,7 +74,7 @@ local function update_otherchapinfo(rinfo, newinfo)
            end 
         end
         if not OK then 
-            pout("there have been changes in chapters. Overwriting information now!")
+            -- pout("there have been changes in chapters. Overwriting information now!")
             save_info(rinfo)
         else -- update other information
             for i, v in ipairs(oldchap) do
