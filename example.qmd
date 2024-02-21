@@ -17,6 +17,6 @@ And then the lorem ipsum. A question can also stand out and be put in a quote.
 ??}
 
 
-\section{Vinks til udvalgte spørgsmål}
+\section{Hints to selected questions}
 
 \qsolutions

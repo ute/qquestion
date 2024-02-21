@@ -65,6 +65,7 @@ local function update_otherchapinfo(rinfo, newinfo)
     if rinfo.isbook then
         --pout(newchap)
         iexclude = rinfo.currentindex
+        -- pout("update all but "..iexclude)
     -- double check if chapter lists are compatible, otherwise overwrite and quit
         for i, v in ipairs(oldchap) do
            if OK  then
@@ -95,6 +96,7 @@ local function Meta_projectfiles(meta)
     local rinfo={}
     local fname=""
     local ir = 0
+    local chapno = ""
     -- pout("here we go")
     rinfo.ispdf = quarto.doc.is_format("pdf")
     rinfo.ishtml = quarto.doc.is_format("html")
@@ -109,11 +111,13 @@ local function Meta_projectfiles(meta)
        -- rinfo.first = ""
        -- rinfo.last = ""
         rinfo.rendr = {}
+        rinfo.currentindex = 0    
         for _, v in pairs(meta.book.render) do    
             if str(v.type) == "chapter" then
                 ir = ir+1  
-                if v.number then chapno = str(v.number) 
-                else chapno = "" end
+                -- pout("setup chapter "..ir.." file "..str(v.file))
+                if v.number then chapno = str(v.number) end;
+                -- else chapno = "" end
                 fname = pandoc.path.split_extension(str(v.file))
                 if fname == processedfile then rinfo.currentindex = ir end
                 -- rinfo.last = fname
@@ -130,13 +134,16 @@ local function Meta_projectfiles(meta)
     end   
     rinfo.chapno = ""
     if rinfo.isbook then
-        if meta.chapno then  
-            rinfo.chapno = str(meta.chapno)
-            rinfo.rendr[rinfo.currentindex].chapno = rinfo.chapno
-          else
-            rinfo.chapno = rinfo.rendr[rinfo.currentindex].chapno
-          end
-    end 
+        -- pout("current "..rinfo.currentindex.." chapno "..rinfo.chapno)      
+        if rinfo.currentindex > 0 then
+            if meta.chapno then  
+               rinfo.chapno = str(meta.chapno)
+               rinfo.rendr[rinfo.currentindex].chapno = rinfo.chapno 
+            else
+               rinfo.chapno = rinfo.rendr[rinfo.currentindex].chapno
+            end
+--        else rinfo.chapno = ""  
+    end end
     return(rinfo)
  end;    
 
@@ -146,10 +153,9 @@ local function Meta_getinfo(meta)
     local rinfo={}
     local oldinfo=read_info()
 
-    -- pout("here we go")
     rinfo = Meta_projectfiles(meta) 
     -- pout(oldinfo)
-    if oldinfo then update_otherchapinfo(rinfo, oldinfo) 
+    if oldinfo then if rinfo.chapternumber then update_otherchapinfo(rinfo, oldinfo) end
     else pout ("no old info available") 
     end
     return(rinfo)

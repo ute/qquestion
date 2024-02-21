@@ -28,8 +28,8 @@ SOFTWARE.
 ]]--
 
 
--- local str = pandoc.utils.stringify
--- local pout = quarto.log.output
+local str = pandoc.utils.stringify
+local pout = quarto.log.output
 
 -- initiate rendering information and global question number
 local utelz = require("./renderinfo")
@@ -42,7 +42,8 @@ local qnum = 0
 function init_qnum(renderinfo)
   qnum = 0
   qcount = 0
-  if renderinfo.ishtmlbook then 
+  -- pout("init qnum. current index "..renderinfo.currentindex)
+  if renderinfo.ishtmlbook and renderinfo.currentindex > 0 then 
     for i, v in ipairs(renderinfo.rendr) do
       if i < renderinfo.currentindex 
         then if v.qcount then 
@@ -92,6 +93,7 @@ end
 -- find {?? bla ??}
 
 function Inlines_parse(el)
+  -- pout("the inlines")
   for i,ele in pairs(el) do
     if ele.t == "Str" then 
       if ele.text == "{??" then
@@ -109,6 +111,7 @@ end
 
 
 function Pandoc_doit(doc)
+  -- pout("the pandoc")
   if rinfo.ishtml
   then 
     quarto.doc.add_html_dependency({
@@ -121,7 +124,7 @@ function Pandoc_doit(doc)
       quarto.doc.add_format_resource("Emo_think.png")
   end
  
-  if rinfo.ishtmlbook then
+  if rinfo.ishtmlbook and rinfo.currentindex > 0 then
     rinfo.rendr[rinfo.currentindex].qcount = qcount
   end;  
   utelz.save_info(rinfo)
@@ -133,7 +136,9 @@ return{
 { -- first get rendering information
   Meta = function(meta) 
     rinfo = utelz.Meta_getinfo(meta)
+    -- pout("now init")
     init_qnum(rinfo)
+    -- pout("fertig")
   end  
 },
 {
