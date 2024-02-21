@@ -32,7 +32,8 @@ SOFTWARE.
 
 local str = pandoc.utils.stringify
 local pout = quarto.log.output
-local dumpfile = "_renderinfo.json"
+local projectdir = os.getenv("QUARTO_PROJECT_DIR")
+local dumpfile = projectdir.."/_renderinfo.json"
 
 -- rendering information
 
@@ -53,6 +54,7 @@ local function save_info(renderinfo)
     local rjson = quarto.json.encode(renderinfo)
     local file = io.open(dumpfile,"w")
     if file ~= nil then 
+      -- pout ("dumping render info to "..dumpfile)
       file:write(rjson) 
       file:close()
     end
@@ -75,7 +77,7 @@ local function update_otherchapinfo(rinfo, newinfo)
            end 
         end
         if not OK then 
-            -- pout("there have been changes in chapters. Overwriting information now!")
+            pout("there have been changes in chapters. Overwriting render information now.")
             save_info(rinfo)
         else -- update other information
             for i, v in ipairs(oldchap) do
@@ -85,8 +87,8 @@ local function update_otherchapinfo(rinfo, newinfo)
                    oldchap[i] = newchap[i]
                 end 
              end 
-        --    pout("updated info")
-        --    pout(rinfo) 
+            -- pout("updated info")
+            -- pout(rinfo) 
         end   
     end    
 end    
@@ -95,6 +97,7 @@ local function Meta_projectfiles(meta)
     local processedfile = pandoc.path.split_extension(PANDOC_STATE.output_file)
     local rinfo={}
     local fname=""
+    local file = ""
     local ir = 0
     local chapno = ""
     -- pout("here we go")
@@ -118,12 +121,14 @@ local function Meta_projectfiles(meta)
                 -- pout("setup chapter "..ir.." file "..str(v.file))
                 if v.number then chapno = str(v.number) end;
                 -- else chapno = "" end
-                fname = pandoc.path.split_extension(str(v.file))
+                file = str(v.file)
+                fname = pandoc.path.filename(pandoc.path.split_extension(file))
+                -- pout("process "..processedfile.." fname "..fname)
                 if fname == processedfile then rinfo.currentindex = ir end
                 -- rinfo.last = fname
                 -- if rinfo.first == "" then rinfo.first = fname end
                 rinfo.rendr[ir] ={
-                    file = str(v.file),
+                    file = file,
                     chapno = chapno,
                     fname = fname
                 }
@@ -155,8 +160,15 @@ local function Meta_getinfo(meta)
 
     rinfo = Meta_projectfiles(meta) 
     -- pout(oldinfo)
-    if oldinfo then if rinfo.chapternumber then update_otherchapinfo(rinfo, oldinfo) end
-    else pout ("no old info available") 
+    if oldinfo 
+    then
+      -- pout("old info found")  
+      if rinfo.chapno -- is chapter
+        then
+        -- pout("is chapter "..rinfo.chapno)
+        update_otherchapinfo(rinfo, oldinfo) 
+        end
+    -- else pout ("no old chapter info available ") 
     end
     return(rinfo)
   end

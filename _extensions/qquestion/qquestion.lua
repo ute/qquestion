@@ -47,6 +47,7 @@ function init_qnum(renderinfo)
     for i, v in ipairs(renderinfo.rendr) do
       if i < renderinfo.currentindex 
         then if v.qcount then 
+            -- if v.qcount > 0 then pout("add counts "..v.qcount) end
             qnum = qnum + v.qcount 
         end end
     end  
@@ -111,7 +112,6 @@ end
 
 
 function Pandoc_doit(doc)
-  -- pout("the pandoc")
   if rinfo.ishtml
   then 
     quarto.doc.add_html_dependency({
@@ -125,8 +125,10 @@ function Pandoc_doit(doc)
   end
  
   if rinfo.ishtmlbook and rinfo.currentindex > 0 then
+    -- pout ("updating render info with counts "..qcount)
     rinfo.rendr[rinfo.currentindex].qcount = qcount
   end;  
+  -- pout ("save rinfo for current index"..rinfo.currentindex)
   utelz.save_info(rinfo)
   return(doc)
 end  
@@ -136,7 +138,6 @@ return{
 { -- first get rendering information
   Meta = function(meta) 
     rinfo = utelz.Meta_getinfo(meta)
-    -- pout("now init")
     init_qnum(rinfo)
     -- pout("fertig")
   end  
