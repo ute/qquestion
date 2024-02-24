@@ -13,7 +13,7 @@ This will install the extension under the `_extensions` subdirectory.
 If you're using version control, you will want to check in this directory.
 
 ## Using
-![image](https://github.com/ute/qquestion/assets/5145859/1df83a91-6971-488f-b4ef-874787dd90e9)
+![image](https://github.com/ute/qquestion/assets/5145859/b0b1d49f-aef7-4fbc-bc7b-52772c9941f0)
 
 In the yaml, add
 ```
