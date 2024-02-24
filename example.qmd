@@ -6,15 +6,15 @@ filters:
 
 \collectanswers
 
-Enclosing questions in Tuborgs {?? May I ask a first question? Think about anything. ??}
+Enclosing questions in Tuborgs {{? May I ask a first question? Think about anything. ?}}
 
-Questions can come immediately in the text. {?? Do you remember Pythagoras' equation? :|: nobody knows exactly what is going on here $$ a^2 + b^2 $$ ??}
+Questions can come immediately in the text. {{? Do you remember Pythagoras' equation? :|: nobody knows exactly what is going on here $$ a^2 + b^2 $$ ?}}
 
 And then the lorem ipsum. A question can also stand out and be put in a quote.
 
-> {?? Questions can stretch over several lines.  
+> {{? Questions can stretch over several lines.  
 >  Here is the third one. Think about this formula: $$ c^2 = a^2 + b^2.$$ Does it ring a bell?
-??}
+?}}
 
 
 \section{Hints to selected questions}

@@ -21,7 +21,7 @@ filters:
     - qquestion
 ```
 
-To insert a question in the text enclose text in `{??` and `??}`. To add an answer or hint to the question, separate the answer text from question by `:|:`, within the same pair of brackets.
+To insert a question in the text enclose text in `{{?` and `?}}`. To add an answer or hint to the question, separate the answer text from question by `:|:`, within the same pair of brackets.
 
 To collect answers for use in pdf, add the LaTeX command `\collectanswers` before any question with answers. Retrieve answers including a reference number by adding the LaTeX command `\qsolutions` in your text.
 

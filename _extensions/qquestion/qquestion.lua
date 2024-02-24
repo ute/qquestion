@@ -32,7 +32,7 @@ local str = pandoc.utils.stringify
 local pout = quarto.log.output
 
 -- initiate rendering information and global question number
-local utelz = require("./renderinfo")
+local utelz = require("./projectutils")
 local rinfo = {}
 local qcount = 0
 local qnum = 0
@@ -97,9 +97,9 @@ function Inlines_parse(el)
   -- pout("the inlines")
   for i,ele in pairs(el) do
     if ele.t == "Str" then 
-      if ele.text == "{??" then
+      if ele.text == "{{?" then
         ele = qstart()
-      elseif ele.text == "??}" then
+      elseif ele.text == "?}}" then
         ele = qend()
       elseif ele.text == ":|:" then
         ele = qans()--"<Answer to "..qnum..">"
@@ -137,7 +137,9 @@ end
 return{
 { -- first get rendering information
   Meta = function(meta) 
+    pout("Meta in qquestion")
     rinfo = utelz.Meta_getinfo(meta)
+    pout("retrieved info")
     init_qnum(rinfo)
     -- pout("fertig")
   end  
