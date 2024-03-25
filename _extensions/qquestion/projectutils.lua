@@ -130,6 +130,7 @@ local function update_otherchapinfo(rinfo, newinfo)
     local oldchap = rinfo.rendr
     local newchap = newinfo.rendr
     local OK = true
+    local nnew = #newchap
     if rinfo.isbook then
         --pout(newchap)
         iexclude = rinfo.currentindex
@@ -139,7 +140,9 @@ local function update_otherchapinfo(rinfo, newinfo)
            if OK  then
       --        pout("checking chap "..i)
       --        pout("names: old "..v.file.." - new: "..newchap[i].file)
-              OK = v.file == newchap[i].file
+              if i > nnew then OK = false
+              else OK = v.file == newchap[i].file
+              end  
            end 
         end
         if not OK then 
